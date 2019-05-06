@@ -1,0 +1,2 @@
+# ScriptLang
+Simple scripting language
