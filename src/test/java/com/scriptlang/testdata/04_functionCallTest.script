@@ -1,0 +1,42 @@
+f main(){   
+    var x1,x2=return2ValuesFromFunctionWithArg(26);
+    debuglog "return2ValuesFromFunctionWithArgX1" x1;
+    debuglog "return2ValuesFromFunctionWithArgX2" x2;
+    debuglog "return2ValuesFromFunctionWithArg" return2ValuesFromFunctionWithArg(45);
+
+    debuglog "returnFromFunctionValue" returnFromFunction();
+
+    passTwoArguments(40,60);
+
+    passOneArgument(25);
+    passNoArguments();
+
+    var x=returnFromFunction();
+    debuglog "returnFromFunctionValueX" returnFromFunction();
+    debuglog "returnFromFunctionWithArg" returnFromFunctionWithArg(45);
+}
+
+f passOneArgument(x){
+    debuglog "passOneArgument" x;
+}
+
+f passTwoArguments(x,y){
+    debuglog "passTwoArgumentsX" x;
+    debuglog "passTwoArgumentsY" y;
+}
+
+f passNoArguments(){
+    debuglog "passNoArguments" 65;
+}
+
+f returnFromFunction(){
+    return 78;
+}
+
+f returnFromFunctionWithArg(x){
+    return x;
+}
+
+f return2ValuesFromFunctionWithArg(x){
+    return 77,x;
+}

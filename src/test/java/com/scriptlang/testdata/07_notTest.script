@@ -1,0 +1,14 @@
+f main(){ 
+    debuglog "!(true)" !(true);
+    debuglog "!(false)" !(false);
+    debuglog "!(funtionThatReturnsTrue())" !(funtionThatReturnsTrue());
+    debuglog "!(funtionThatReturnsFalseAndTrue())" !(funtionThatReturnsFalseAndTrue());
+}
+
+f funtionThatReturnsTrue(){
+    return true;
+}
+
+f funtionThatReturnsFalseAndTrue(){
+    return false,true;
+}

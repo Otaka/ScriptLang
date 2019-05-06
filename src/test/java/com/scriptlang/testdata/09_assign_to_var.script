@@ -1,0 +1,5 @@
+f main(){
+    var x=3;
+    x=x+7;
+    debuglog "assign_result" x;
+}

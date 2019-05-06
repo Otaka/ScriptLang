@@ -1,0 +1,10 @@
+f main(){
+    debuglog "resultOfSumFunction" testIntSum(20,5);
+    debuglog "resultOfStringFunction" testStringFunction("abc");
+    callVoidFunction();
+}
+
+f callVoidFunction(){
+    testReturnVoidFunction("toVoidValue");
+    testIntSum(10,10);                      //just to test that we can successfully return from function if we not consume returned value
+}

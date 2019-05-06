@@ -1,0 +1,45 @@
+f main(){ 
+//regular equals  
+    debuglog "1 + ==" "abc"=="abc";
+    debuglog "2 + ==" "abc"==("a"+"b"+"c");
+    debuglog "3 + ==" 98.6==98+0.6;
+    debuglog "4 + ==" true==true;
+    debuglog "5 + ==" false==false;
+    
+    debuglog "1 - !=" "abc"=="bcd";
+    debuglog "2 - !=" 68==86;
+    debuglog "3 - !=" 98.6==98+0.7;
+    debuglog "4 - !=" false==true;
+    debuglog "5 - !=" false==true;
+   
+    debuglog "1 + ===" "abc"==="abc";
+    debuglog "1 - ===" "abc"===("a"+"b"+"c");
+    debuglog "2 + ===" 1===1;
+    debuglog "2 - ===" 1===2;
+    debuglog "3 + ===" 198981===198981;
+    debuglog "3 - ===" 198981===198980;
+    debuglog "4 + ===" 198981.1===198981.1;
+    debuglog "4 - ===" 198981===198980;
+    debuglog "5 + ===" true===true;
+    debuglog "5 - ===" false===true;
+
+    debuglog "1 + <" 1<2;
+    debuglog "1 - <" 5<2;
+    debuglog "2 + <" "ABC"<"BCD";
+    debuglog "2 - <" "BCD"<"ABC";
+
+    debuglog "3 + >" 5>2;
+    debuglog "3 - >" 1>2;
+    debuglog "4 + >" "BCD">"ABC";
+    debuglog "4 - >" "ABC">"BCD";
+
+    debuglog "1   + <=" 1<=1;
+    debuglog "1.1 + <=" 1<=5;
+    debuglog "1   - <=" 5<=1;
+    debuglog "1.1 - <=" 6<=5;
+
+    debuglog "1   + >=" 1>=1;
+    debuglog "1.1 - >=" 1>=5;
+    debuglog "1   + >=" 5>=1;
+    debuglog "1.1 - >=" 1>=5;
+}

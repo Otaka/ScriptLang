@@ -1,0 +1,8 @@
+f main(){
+    var str=" ";
+    for(var i=0;i<10;i=i+1){
+        debuglog "sum_result"+i i;
+        str=str+i;
+    }
+    debuglog "collected_string" str;
+}

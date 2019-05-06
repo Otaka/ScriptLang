@@ -1,0 +1,12 @@
+f main(){
+    debuglog "0" "";
+    debuglog "0_2" `@@;
+    debuglog "1" "abc";
+    debuglog "2" `"def";
+    debuglog "3" `@ghi@;
+    debuglog "4" `"Hello `"world`"";
+    debuglog "5" `@1`@23@;
+    debuglog "multiline" "first line
+second line
+third line";
+}

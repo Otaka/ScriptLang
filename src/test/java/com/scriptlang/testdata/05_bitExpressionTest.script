@@ -1,0 +1,6 @@
+f main(){   
+    debuglog "bitAnd" 98&28;
+    debuglog "bitOr" 98|28;
+    debuglog "bitXor" 98^28;
+    
+}

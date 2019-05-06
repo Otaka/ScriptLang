@@ -1,0 +1,47 @@
+f main(){
+    var x=3;
+    if(x==3){
+        debuglog "ifbody" 1;
+    }
+    if(x==4){
+        debuglog "ifbody2" 1;
+    }
+    debuglog "afterif" 2;
+
+    //else
+    if(x==3){
+        debuglog "ifWithElse_Body" 3;//+
+    }else{
+        debuglog "ifWithElse_Else" 4;//-
+    }
+
+    if(x==4){
+        debuglog "ifWithElse_Body2" 5;//-
+    }else{
+        debuglog "ifWithElse_Else2" 6;//+
+    }
+
+    if(x==1){
+        debuglog "ifElseIf_1" 10;
+    }else if(x==2){
+        debuglog "ifElseIf_2" 11;
+    }else{
+        debuglog "ifElseIf_3" 12; //+
+    }
+
+    if(x==2){
+        debuglog "ifElseIf_4" 13;
+    }else if(x==3){
+        debuglog "ifElseIf_5" 14; //+
+    }else{
+        debuglog "ifElseIf_6" 15;
+    }
+
+    if(x==3){
+        debuglog "ifElseIf_7" 16; //+
+    }else if(x==4){
+        debuglog "ifElseIf_8" 17;
+    }else{
+        debuglog "ifElseIf_9" 18;
+    }
+}

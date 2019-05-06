@@ -1,0 +1,9 @@
+f main(){
+    debuglog "long" 985;
+    debuglog "long-" (-985);
+    debuglog "double" 98.98;
+    debuglog "double-" (-98.98);
+    debuglog "booleanTrue" true;
+    debuglog "booleanFalse" false;
+    debuglog "string" "StringValue";
+}

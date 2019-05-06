@@ -1,0 +1,4 @@
+f main(){
+    var x=89;
+    debuglog "output" x;
+}

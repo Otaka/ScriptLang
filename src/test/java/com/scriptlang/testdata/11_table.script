@@ -1,0 +1,10 @@
+f main(){
+    var mytable={};
+    mytable["key"]="some_value";
+    debuglog "valueFromTable" mytable["key"];
+
+    var table={};
+    table["nestedTable"]={};
+    table["nestedTable"]["nestedKey"]="nestedKeyValue";
+    debuglog "nestedValue" table["nestedTable"]["nestedKey"];
+}
