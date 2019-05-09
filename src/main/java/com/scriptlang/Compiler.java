@@ -4,10 +4,9 @@ import com.scriptlang.bytecode.BaseInstruction;
 import com.scriptlang.bytecode.LocalFunctionCallInstruction;
 import com.scriptlang.bytecode.TempLocalFunctionCallInstruction;
 import com.scriptlang.compiler.BytecodeGenerationContext;
-import com.scriptlang.compiler.Variable;
+import com.scriptlang.compiler.GlobalVariable;
 import com.scriptlang.compiler.ast.NamedFunctionAst;
 import com.scriptlang.compiler.ast.ScriptFileAst;
-import com.scriptlang.compiler.ast.VariableDeclarationAst;
 import com.scriptlang.compiler.astvisitor.CompilationToBytecodeVisitor;
 import com.scriptlang.compiler.grammar.Grammar;
 import com.scriptlang.exceptions.ParseException;
@@ -80,11 +79,15 @@ public class Compiler {
         }
 
         postProcessTempFunctionCallInstructions(functionName2IP, context, instructions);
+        for(int i=0;i<context.getGlobalVariables().size();i++){
+            context.getGlobalVariables().get(i).setIndex(i);
+        }
 
         CompiledScriptFile scriptFile = new CompiledScriptFile(
                 functionName2IP,
                 instructions.toArray(new BaseInstruction[0]),
-                context.getStringPool().toArray(new String[0])
+                context.getStringPool().toArray(new String[0]),
+                context.getGlobalVariables().toArray(new GlobalVariable[0])
         );
         scriptFile.setScriptFileName(fileName);
 
@@ -114,7 +117,7 @@ public class Compiler {
             context.getFoundFunctions().add(function);
         }
 
-        int varIndex = -1;
+        /*int varIndex = -1;
         for (VariableDeclarationAst globalVarDeclaration : scriptFileAst.getGlobalVariables()) {
             String varName = globalVarDeclaration.getVarNames().get(0);
             if (context.searchVariable(varName) != null) {
@@ -124,11 +127,11 @@ public class Compiler {
             varIndex++;
             Variable globalVar = new Variable(varName, Variable.VariableType.GLOBAL, varIndex, context.getCurrentScope());
             context.addVariable(globalVar);
-        }
-
+        }*/
+ /*
         if (!scriptFileAst.getGlobalVariables().isEmpty()) {
             context.addNewScope();
-        }
+        }*/
     }
 
     public String readFileFromPath(String path) throws IOException {

@@ -2,6 +2,7 @@ package com.scriptlang.compiler.astvisitor;
 
 import com.scriptlang.bytecode.*;
 import com.scriptlang.compiler.BytecodeGenerationContext;
+import com.scriptlang.compiler.GlobalVariable;
 import com.scriptlang.compiler.InstructionsContainer;
 import com.scriptlang.compiler.Variable;
 import com.scriptlang.compiler.VariablesScope;
@@ -36,6 +37,14 @@ public class CompilationToBytecodeVisitor extends BaseAstVisitor {
         postProcessLabels();
     }
 
+    @Override
+    public void visitStartGlobalVariablesSection(ScriptFileAst scriptAst) {
+        super.visitStartGlobalVariablesSection(scriptAst);
+        if (!context.getGlobalVariables().isEmpty()) {
+            context.addNewScope();
+        }
+    }
+
     private void postProcessLabels() {
         for (String label : label2AbstractRelJumpInstruction.keySet()) {
             Map.Entry<Integer, AbstractRelativeJumpInstruction> entry = label2AbstractRelJumpInstruction.get(label);
@@ -47,6 +56,23 @@ public class CompilationToBytecodeVisitor extends BaseAstVisitor {
 
         label2IndexMap.clear();
         label2AbstractRelJumpInstruction.clear();
+    }
+
+    @Override
+    public void visitGlobalVariable(VariableDeclarationAst variableDeclarationAst) {
+        if (variableDeclarationAst.getVarNames().size() > 1) {
+            throw new ParseException(variableDeclarationAst.getStartPosition(), "Only one variable name is allowed in define global variable");
+        }
+
+        String varName = variableDeclarationAst.getVarNames().get(0);
+        if (context.searchVariable(varName) != null) {
+            throw new ParseException(variableDeclarationAst.getStartPosition(), "Global variable with name [" + varName + "] already defined");
+        }
+
+        GlobalVariable globalVar = new GlobalVariable(varName, -1, context.getCurrentScope());
+        instructionsContainer = globalVar;
+        super.visitGlobalVariable(variableDeclarationAst);
+        context.getGlobalVariables().add(globalVar);
     }
 
     private String createNewLabel(String label) {
@@ -86,7 +112,7 @@ public class CompilationToBytecodeVisitor extends BaseAstVisitor {
                 addInstruction(new SetLocalVariableInstruction(var.getIndex()));
                 break;
             case GLOBAL:
-                addInstruction(new SetGlobalVariableInstruction(var.getIndex()));
+                addInstruction(new SetGlobalVariableInstruction(context.addStringToPoolIfNotExists(var.getName())));
                 break;
             default:
                 throw new IllegalStateException("Variable type [" + var.getVariableType() + "] is not implemented");
@@ -204,7 +230,7 @@ public class CompilationToBytecodeVisitor extends BaseAstVisitor {
                 instruction = new LoadArgumentInstruction(variable.getIndex());
                 break;
             case GLOBAL:
-                instruction = new LoadGlobalVarInstruction(variable.getIndex());
+                instruction = new LoadGlobalVarInstruction(context.addStringToPoolIfNotExists(variable.getName()));
                 break;
             case LOCAL:
                 instruction = new LoadLocalVarInstruction(variable.getIndex());
@@ -426,7 +452,6 @@ public class CompilationToBytecodeVisitor extends BaseAstVisitor {
 
     @Override
     public void visitLocalVariableDeclarationAst(VariableDeclarationAst variableDeclarationAst) {
-        //for (int i=variableDeclarationAst.getVarNames().size()-1;i>=0;i--) {
         for (int i = 0; i < variableDeclarationAst.getVarNames().size(); i++) {
             String varName = variableDeclarationAst.getVarNames().get(i);
             Variable variable = context.searchVariable(varName);
@@ -443,7 +468,6 @@ public class CompilationToBytecodeVisitor extends BaseAstVisitor {
         //in case if initialization expression is not function - it will be repeated for all variables one by one
         if (variableDeclarationAst.getExpression() instanceof FunctionCallAst) {
             super.visitLocalVariableDeclarationAst(variableDeclarationAst);
-            // for (String varName : variableDeclarationAst.getVarNames()) {
             for (int i = variableDeclarationAst.getVarNames().size() - 1; i >= 0; i--) {
                 String varName = variableDeclarationAst.getVarNames().get(i);
                 Variable var = context.searchVariable(varName);

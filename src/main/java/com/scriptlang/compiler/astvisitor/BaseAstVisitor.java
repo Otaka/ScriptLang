@@ -9,10 +9,18 @@ import com.scriptlang.exceptions.ParseException;
 public class BaseAstVisitor {
 
     public void visitScriptFileAst(ScriptFileAst scriptAst) {
+        visitStartGlobalVariablesSection(scriptAst);
+        visitStartFunctionsSection(scriptAst);
+
+    }
+
+    public void visitStartGlobalVariablesSection(ScriptFileAst scriptAst) {
         for (VariableDeclarationAst var : scriptAst.getGlobalVariables()) {
             visitGlobalVariable(var);
         }
+    }
 
+    public void visitStartFunctionsSection(ScriptFileAst scriptAst) {
         for (NamedFunctionAst function : scriptAst.getFunctions()) {
             visitNamedFunction(function);
         }
@@ -106,15 +114,15 @@ public class BaseAstVisitor {
         if (extractField.getOwnerObject() instanceof ExtractFieldAst) {
             visitExtractFieldAst((ExtractFieldAst) extractField.getOwnerObject());
         } else if (extractField.getOwnerObject() instanceof TokenAst) {
-            TokenAst varName=(TokenAst) extractField.getOwnerObject();
-            VariableUsageAst varUsageAst=new VariableUsageAst();
+            TokenAst varName = (TokenAst) extractField.getOwnerObject();
+            VariableUsageAst varUsageAst = new VariableUsageAst();
             varUsageAst.setStartPosition(varName.getStartPosition());
             varUsageAst.setEndPosition(varName.getEndPosition());
             varUsageAst.setVariableName(varName.getValue());
             visitVariableUsageAst(varUsageAst);
-        } else if(extractField.getOwnerObject() instanceof VariableUsageAst){
+        } else if (extractField.getOwnerObject() instanceof VariableUsageAst) {
             visitVariableUsageAst((VariableUsageAst) extractField.getOwnerObject());
-        }else {
+        } else {
             throw new ParseException(extractField.getStartPosition(), "Extraction field from ast [" + extractField.getOwnerObject().getClass().getSimpleName() + "] is not implemented");
         }
     }

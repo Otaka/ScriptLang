@@ -1,6 +1,8 @@
 package com.scriptlang;
 
 import com.scriptlang.bytecode.BaseInstruction;
+import com.scriptlang.compiler.GlobalVariable;
+import com.scriptlang.data.MutableVar;
 import com.scriptlang.ffi.ExternalFunctionManager;
 import java.io.IOException;
 import java.util.Map;
@@ -39,6 +41,7 @@ public class Interpreter {
     public String[] stringPool;
     public Map<String, Integer> functionName2IP;
     public ExternalFunctionManager platformFunctions = new ExternalFunctionManager();
+    public GlobalVariable[] globalVariables;
 
     public void compileAndExecute(String resourcePath) throws IOException {
         Compiler compiler = new Compiler();
@@ -56,13 +59,38 @@ public class Interpreter {
         if (ipOfMainFunction == null) {
             throw new IllegalStateException("Cannot interpret script file [" + compiledScriptFile.getScriptFileName() + "] because it does not have main function");
         }
-        ip = ipOfMainFunction;
-        instructions = compiledScriptFile.getInstructions();
+
+        globalVariables = compiledScriptFile.getGlobalVariables();
         stringPool = compiledScriptFile.getStringPool();
         this.functionName2IP = compiledScriptFile.getFunctionName2IP();
 
+        initGlobalVariables();
+
+        ip = ipOfMainFunction;
+        instructions = compiledScriptFile.getInstructions();
         pushMainFunction();
         executionLoop();
+    }
+
+    private void initGlobalVariables() {
+        for (GlobalVariable globalVar : globalVariables) {
+            if (globalVar.getInitInstructions() == null || globalVar.getInitInstructions().isEmpty()) {
+                globalVar.setContent(new MutableVar(0));
+            } else {
+                instructions = globalVar.getInitInstructions().toArray(new BaseInstruction[0]);
+                ip = 0;
+                while (ip < instructions.length) {
+                    BaseInstruction instruction = instructions[ip];
+                    instruction.execute(this);
+                }
+
+                globalVar.setContent((MutableVar) stack[sp]);
+                sp--;
+                if(sp>=0){
+                    throw new IllegalStateException("Error while initialize global variable ["+globalVar.getName()+"]. Stack is not in consistent state. Left ["+sp+"] elements on it");
+                }
+            }
+        }
     }
 
     private void pushMainFunction() {

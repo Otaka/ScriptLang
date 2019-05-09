@@ -7,7 +7,7 @@ public class Variable {
 
     private String name;
     private VariableType variableType;
-    private int index;
+    protected int index;
     private VariablesScope scope;
 
     public Variable(String name, VariableType variableType, int index, VariablesScope scope) {

@@ -15,10 +15,15 @@ public class BytecodeGenerationContext {
     private List<VariablesScope> scopes = new ArrayList<>();
     private List<String> stringPool = new ArrayList<>();
     private ExternalFunctionManager externalFunctionManager;
+    private List<GlobalVariable>globalVariables=new ArrayList<>();
 
     public BytecodeGenerationContext(ExternalFunctionManager platformFunctions) {
         this.externalFunctionManager = platformFunctions;
         addNewScope();
+    }
+
+    public List<GlobalVariable> getGlobalVariables() {
+        return globalVariables;
     }
 
     public ExternalFunctionManager getExternalFunctionManager() {
@@ -67,6 +72,13 @@ public class BytecodeGenerationContext {
                 return v;
             }
         }
+
+        for(GlobalVariable globalVar:globalVariables){
+            if(globalVar.getName().equals(name)){
+                return globalVar;
+            }
+        }
+
         return null;
     }
 
