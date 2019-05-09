@@ -1,0 +1,11 @@
+var globalX=1;
+var globalY=globalX+99;
+
+f main(){
+    debuglog "originalGlobalX" globalX;
+    debuglog "originalGlobalY" globalY;
+    globalX=12;
+    globalY=23;
+    debuglog "modifiedGlobalX" globalX;
+    debuglog "modifiedGlobalY" globalY;
+}

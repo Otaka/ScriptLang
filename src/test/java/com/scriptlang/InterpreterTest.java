@@ -207,4 +207,15 @@ public class InterpreterTest extends BaseTest {
 
         checkNothingLeftInDebugLog();
     }
+    
+    @Test
+    public void testGlobalVariables() throws IOException {
+        new Interpreter().compileAndExecute("resource:///com/scriptlang/testdata/13_global_variables.script");
+        Assert.assertEquals(1, getAndRemoveLongFromDebugLogCheckExists("originalGlobalX"));
+        Assert.assertEquals(100, getAndRemoveLongFromDebugLogCheckExists("originalGlobalY"));
+        Assert.assertEquals(12, getAndRemoveLongFromDebugLogCheckExists("modifiedGlobalX"));
+        Assert.assertEquals(23, getAndRemoveLongFromDebugLogCheckExists("modifiedGlobalY"));
+        
+        checkNothingLeftInDebugLog();
+    }
 }
