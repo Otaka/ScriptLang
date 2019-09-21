@@ -1,0 +1,26 @@
+f nfibs (n){
+    if (n == 0) {
+        return 0 ;
+    }else{
+        if (n<2){
+            return n;
+        }else{
+            return nfibs(n-1)+nfibs(n-2);
+        }
+    }
+}
+
+f main(){
+    debuglog "x" nfibs(0);
+    debuglog "x" nfibs(1);
+    debuglog "x" nfibs(2);
+    debuglog "x" nfibs(3);
+    debuglog "x" nfibs(4);
+    debuglog "x" nfibs(5);
+    debuglog "x" nfibs(6);
+    debuglog "x" nfibs(7);
+    debuglog "x" nfibs(8);
+    debuglog "x" nfibs(9);
+    debuglog "x" nfibs(10);
+    debuglog "x" nfibs(40);
+}

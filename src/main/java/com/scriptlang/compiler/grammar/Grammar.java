@@ -254,7 +254,7 @@ public class Grammar extends GrammarAction {
                                 keyword("or"),
                                 keyword("and")
                         ),
-                        push(match()),
+                        push(match().trim()),
                         ensureWhitespace(),
                         FirstOf(
                                 bitManipExpressionRule(),
@@ -276,7 +276,7 @@ public class Grammar extends GrammarAction {
                                 keyword("|"),
                                 keyword("^")
                         ),
-                        push(match()),
+                        push(match().trim()),
                         FirstOf(
                                 equalExpressionRule(),
                                 actionFail("& or | or ^ expects second expression")
@@ -295,7 +295,7 @@ public class Grammar extends GrammarAction {
                         FirstOf(//this order is very important, we should go from bigest to smalest, to prevent situation when small pattern "eats' part of actual operation. For example '===' can be parsed as '==' and '='
                                 keyword("==="), keyword("!=="), keyword("=="), keyword("!="), keyword(">="), keyword("<="), keyword(">"), keyword("<")
                         ),
-                        push(match()),
+                        push(match().trim()),
                         FirstOf(
                                 sumExpressionRule(),
                                 actionFail("Equality operator expects second expression")
@@ -317,7 +317,7 @@ public class Grammar extends GrammarAction {
                                 keyword("-"),
                                 keyword("%")
                         ),
-                        push(match()),
+                        push(match().trim()),
                         FirstOf(
                                 divMulExpressionRule(),
                                 actionFail("Expected second expression for operation +/-/%")
@@ -335,7 +335,7 @@ public class Grammar extends GrammarAction {
                 atomWrapper(),
                 ZeroOrMore(
                         FirstOf(keyword("/"), keyword("*")),
-                        push(match()),
+                        push(match().trim()),
                         FirstOf(
                                 atomWrapper(),
                                 actionFail("Expected second expression for '*' '/'")

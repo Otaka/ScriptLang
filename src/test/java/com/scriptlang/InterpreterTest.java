@@ -4,6 +4,7 @@ import com.scriptlang.data.MutableVar;
 import com.scriptlang.ffi.ExternalFunction;
 import java.io.IOException;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class InterpreterTest extends BaseTest {
@@ -217,5 +218,12 @@ public class InterpreterTest extends BaseTest {
         Assert.assertEquals(23, getAndRemoveLongFromDebugLogCheckExists("modifiedGlobalY"));
         
         checkNothingLeftInDebugLog();
+    }
+    
+    @Test
+    @Ignore
+    public void testFibonacchi() throws IOException {
+        new Interpreter().compileAndExecute("resource:///com/scriptlang/testdata/fibCalc.script");
+        //checkNothingLeftInDebugLog();
     }
 }

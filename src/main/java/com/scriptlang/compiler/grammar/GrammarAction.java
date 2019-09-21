@@ -291,9 +291,9 @@ public class GrammarAction extends BaseParser<Object> {
 
         long value;
         if (matched.startsWith("-")) {
-            value = Long.parseLong(context.getMatch());
+            value = Long.parseLong(matched);
         } else {
-            value = Long.parseUnsignedLong(context.getMatch());
+            value = Long.parseUnsignedLong(matched);
         }
 
         context.getValueStack().push(new LongValueAst(value));
@@ -350,7 +350,7 @@ public class GrammarAction extends BaseParser<Object> {
         try {
             Object receiver = peekObject(context, receiverClass);
             Method method = getSetterMethod(receiverClass, receiverMethod, String.class);
-            method.invoke(receiver, context.getMatch());
+            method.invoke(receiver, context.getMatch().trim());
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();
